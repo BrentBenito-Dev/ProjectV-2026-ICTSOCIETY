@@ -25,5 +25,20 @@ function saveConfession($data) {
     ]);
 }
 
+function addContestant($data){
+    $pdo = getDB();
+
+    $sql = "INSERT INTO tbl_contestant (Contestant_Name, Section, Vote_Count) 
+            VALUES (:Contestant_Name, :Section, :Vote_Count)";
+
+    $stmt = $pdo->prepare($sql);
+
+    return $stmt->execute([
+        ':Contestant_Name'   => $data['Contestant_Name'],
+        ':Section'           => $data['Section'],
+        ':Vote_Count'        => $data['Vote_Count']
+    ]);
+}
+
 
 ?>
