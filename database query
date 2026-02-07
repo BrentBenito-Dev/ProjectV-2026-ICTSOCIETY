@@ -12,3 +12,11 @@ CREATE TABLE MusicOrders (
     Status VARCHAR(20) DEFAULT 'Pending',
     Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+use alay;
+
+ALTER TABLE orders 
+ADD COLUMN Rate_Type VARCHAR(50) DEFAULT 'Standard',
+ADD COLUMN Price DECIMAL(10, 2) DEFAULT 0.00;
+
+ps: dahil sa changes for report page
