@@ -1,0 +1,14 @@
+CREATE DATABASE alay;
+
+USE alayl;
+
+
+CREATE TABLE orders (
+    OrderID INT AUTO_INCREMENT PRIMARY KEY,
+    Customer_Name VARCHAR(255),
+    Song_Name VARCHAR(255),
+    Target_Person VARCHAR(255),
+    Order_Category VARCHAR(50),
+    Status VARCHAR(20) DEFAULT 'Pending',
+    Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);
