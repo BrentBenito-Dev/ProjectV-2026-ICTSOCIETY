@@ -1,6 +1,6 @@
 <?php 
     // Database Function Group
-    function getDB() {
+function getDB() {
     $host = 'localhost';
     $db   = 'projectvdb';
     $user = 'root'; // Default XAMPP/WAMP user

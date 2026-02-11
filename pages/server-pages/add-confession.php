@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 1. Map Form to DB Schema
     $db_data = [
         'Confess_Name'   => input('first_name') . ' ' . input('last_name'),
+        'Section'    => input('section'),
         'Custom_Clue'    => input('custom_clue'),
         'Message'        => input('message'),
         'Recipient_Name' => input('recipient_name')
