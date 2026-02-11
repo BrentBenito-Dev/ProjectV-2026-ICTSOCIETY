@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $title ?? 'ICT Society Valentines Event 2026'; ?></title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <main>
         <?php include($childView); ?>
     </main>
+    <?php if (isset($scriptPath)): ?>
+        <script src="<?= $scriptPath ?>"></script>
+    <?php endif; ?>
 </body>
 </html>
