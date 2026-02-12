@@ -31,8 +31,8 @@ if(isset($_GET['void_id'])) {
 if(isset($_POST['approve_request'])) {
     $oid = $_POST['order_id'];
     $rtype = $_POST['rate_type'];
-    $setlist = $_POST['setlist_type']; // Capture manual setlist choice
-    $price = $rate_prices[$rtype];
+    $setlist = $_POST['setlist_type']; 
+    $price = $rate_prices[$rtype] ?? 0;
     $conn->query("UPDATE orders SET Status='Approved', Rate_Type='$rtype', Price='$price', Setlist_Type='$setlist' WHERE OrderID='$oid'");
     header("Location: admin.php"); exit();
 }
@@ -49,7 +49,6 @@ $status_counts = ['Pending' => 0, 'Approved' => 0, 'COMPLETED' => 0, 'Voided' =>
 $status_res = $conn->query("SELECT Status, COUNT(*) as count FROM orders GROUP BY Status");
 while($s = $status_res->fetch_assoc()) { $status_counts[$s['Status']] = $s['count']; }
 
-// Fetch active items based on the chosen filter
 $all_active = $conn->query("SELECT * FROM orders WHERE Status NOT IN ('COMPLETED', 'Voided') $filter_query ORDER BY OrderID ASC");
 ?>
 <!DOCTYPE html>
@@ -139,6 +138,21 @@ $all_active = $conn->query("SELECT * FROM orders WHERE Status NOT IN ('COMPLETED
                                     </select>
                                     <button type="submit" name="approve_request" class="bg-pink-500 text-[9px] px-2 py-1 rounded font-bold">VALIDATE</button>
                                 </form>
+                            <?php elseif($row['Status'] == 'Approved'): ?>
+                                <div class="text-[10px]">
+                                    <span class="block text-pink-400 font-bold mb-1"><?php echo $row['Rate_Type']; ?></span>
+                                    <form method="POST" class="flex gap-1">
+                                        <input type="hidden" name="order_id" value="<?php echo $row['OrderID']; ?>">
+                                        <input type="hidden" name="rate_type" value="<?php echo $row['Rate_Type']; ?>">
+                                        <select name="setlist_type" onchange="this.form.submit()" class="bg-black/40 text-[9px] p-1 rounded border border-pink-500/30 text-zinc-300">
+                                            <option value="1st Set" <?php if($row['Setlist_Type'] == '1st Set') echo 'selected'; ?>>1st Set</option>
+                                            <option value="2nd Set" <?php if($row['Setlist_Type'] == '2nd Set') echo 'selected'; ?>>2nd Set</option>
+                                            <option value="3rd Set" <?php if($row['Setlist_Type'] == '3rd Set') echo 'selected'; ?>>3rd Set</option>
+                                            <option value="Final Set" <?php if($row['Setlist_Type'] == 'Final Set') echo 'selected'; ?>>Final Set</option>
+                                        </select>
+                                        <input type="hidden" name="approve_request" value="1">
+                                    </form>
+                                </div>
                             <?php else: ?>
                                 <div class="text-[10px]">
                                     <span class="block text-pink-400 font-bold"><?php echo $row['Rate_Type']; ?></span>
