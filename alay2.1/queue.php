@@ -1,8 +1,8 @@
 <?php
 $conn = new mysqli("localhost", "root", "", "alaykanta");
-// MODIFIED: Order by Setlist priority, then request time
+
 $sql = "SELECT * FROM orders WHERE Status = 'Approved' 
-        ORDER BY FIELD(Setlist_Type, '1st', '2nd', '3rd', 'Final'), Timestamp ASC";
+        ORDER BY FIELD(Setlist_Type, '1st Set', '2nd Set', '3rd Set', 'Final Set') ASC, Timestamp ASC";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -28,7 +28,7 @@ $result = $conn->query($sql);
                 <div class="relative group flex items-center justify-between p-6 bg-zinc-900 border border-zinc-800 rounded-3xl transition-all hover:border-rose-500/50 hover:-translate-y-1">
                     
                     <div class="absolute -top-2 left-6 bg-zinc-800 text-[9px] text-rose-400 font-black px-2 py-0.5 rounded border border-rose-900/50 uppercase tracking-tighter">
-                        <?php echo $row['Setlist_Type']; ?> Set
+                        <?php echo htmlspecialchars($row['Setlist_Type']); ?> 
                     </div>
 
                     <?php if($row['Is_Secret']): ?>
@@ -38,8 +38,8 @@ $result = $conn->query($sql);
                     <div class="flex items-center gap-5">
                         <div class="w-12 h-12 bg-zinc-800 rounded-xl flex items-center justify-center text-xl group-hover:bg-rose-600 transition-colors">🎵</div>
                         <div>
-                            <h3 class="text-lg font-bold text-white group-hover:text-rose-400">"<?php echo $row['Song_Name']; ?>"</h3>
-                            <p class="text-sm text-zinc-500 italic font-medium">Dedicated to: <?php echo $row['Target_Person']; ?></p>
+                            <h3 class="text-lg font-bold text-white group-hover:text-rose-400">"<?php echo htmlspecialchars($row['Song_Name']); ?>"</h3>
+                            <p class="text-sm text-zinc-500 italic font-medium">Dedicated to: <?php echo htmlspecialchars($row['Target_Person']); ?></p>
                         </div>
                     </div>
                     <div class="text-[24px] text-zinc-700 font-mono font-bold">#<?php echo $row['OrderID']; ?></div>
